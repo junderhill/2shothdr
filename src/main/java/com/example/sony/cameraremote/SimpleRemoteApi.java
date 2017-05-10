@@ -289,6 +289,24 @@ public class SimpleRemoteApi {
         }
     }
 
+    public JSONObject setFocusToManual() throws IOException {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", "setFocusMode") //
+                            .put("params", new JSONArray().put("MF")) //
+                            .put("id", id()).put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
     /**
      * Calls getAvailableShootMode API to the target server. Request JSON data
      * is such like as below.

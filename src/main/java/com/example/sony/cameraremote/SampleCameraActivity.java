@@ -755,6 +755,9 @@ public class SampleCameraActivity extends Activity {
                     else
                         exposureCompToSet = currentExposureComp - 6;
 
+                    //It is expected that as we're shooting HDR that we are doing something landscapey, therefore we set focus to manual to stop the camera trying to reacquire focus between shots
+                    mRemoteApi.setFocusToManual();
+
                     mRemoteApi.actTakePicture();
                     mRemoteApi.setExposureCompensation(exposureCompToSet);
                     mRemoteApi.actTakePicture();
