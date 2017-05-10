@@ -271,6 +271,24 @@ public class SimpleRemoteApi {
         }
     }
 
+    public JSONObject setOSSOff() throws IOException {
+        String service = "camera";
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", "setSteadyMode") //
+                            .put("params", new JSONArray().put("off")) //
+                            .put("id", id()).put("version", "1.0");
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson.toString());
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
     /**
      * Calls getAvailableShootMode API to the target server. Request JSON data
      * is such like as below.

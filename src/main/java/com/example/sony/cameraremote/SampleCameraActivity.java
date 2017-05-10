@@ -382,6 +382,13 @@ public class SampleCameraActivity extends Activity {
                         // Note: hide progress bar on title after this calling.
                     }
 
+                    //turn off optical steady shot as this is for use on a tripod
+                    try {
+                        mRemoteApi.setOSSOff();
+                    }
+                    catch(Exception ex){
+                        DisplayHelper.toast(getApplicationContext(), R.string.msg_error_oss);
+                    }
 
                     Log.d(TAG, "openConnection(): completed.");
                 } catch (IOException e) {
