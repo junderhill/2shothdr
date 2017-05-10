@@ -771,11 +771,21 @@ public class SampleCameraActivity extends Activity {
                 } finally {
                     DisplayHelper.setProgressIndicator(SampleCameraActivity.this, false);
                     try {
+                        //reset the exposure comp and focus back to auto if possible so we can recompose/refocus if required.
                             mRemoteApi.setExposureCompensation(currentExposureComp);
+
+                            JSONObject focusModeResult = mRemoteApi.getAvailableFocusMode();
+                            JSONArray results = focusModeResult.getJSONArray("result");
+                            JSONArray availableModes =  results.getJSONArray(1);
+                            if(availableModes.toString().contains("AF-S")){
+                                mRemoteApi.setFocusToAFS();
+                            }
                     } catch (IOException e) {
                         e.printStackTrace();
                         DisplayHelper.toast(getApplicationContext(), //
                                 R.string.msg_error_exposure_compensation);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
             }
